@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1557837451 source:e:\proiecte\pda\main.cpp
+	<iostream>
+	<fstream>
+	"PDA.h"
+
+1558080530 source:e:\proiecte\pda\src\pda.cpp
+	"PDA.h"
+
+1558078487 e:\proiecte\pda\include\pda.h
+	<string>
+	<istream>
+	<iostream>
+	<vector>
+	<stack>
+
