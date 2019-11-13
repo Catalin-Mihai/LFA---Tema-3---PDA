@@ -8,19 +8,19 @@ ifstream f("test2.txt");
 
 int main()
 {
-            PDA lnfa;
-            f>>lnfa;
+            PDA pda;
+            f>>pda;
             int nr_cuv;
             f>>nr_cuv;
-            lnfa.Afiseaza();
+            pda.Afiseaza();
             string cuvant;
             for(int i = 0; i < nr_cuv; i++)
             {
                 f>>cuvant;
-                bool t = lnfa.CheckWord(cuvant);
+                bool t = pda.CheckWord(cuvant);
                 if(t == false) cout<<"Nu este bun cuvantul: "<<cuvant<<endl;
                 else cout<<"Este bun cuvantul: "<<cuvant<<endl;
             }
-            cout<<"LAMBDA: "<<lnfa.getLambdaSimbIndex();
+            cout<<"LAMBDA: "<<pda.getLambdaSimbIndex();
             return 0;
 }

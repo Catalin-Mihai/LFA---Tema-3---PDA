@@ -14,3 +14,13 @@
 	<vector>
 	<stack>
 
+1573639452 source:c:\users\catalin\desktop\git\pushdown-automata\src\pda.cpp
+	"PDA.h"
+
+1573639452 c:\users\catalin\desktop\git\pushdown-automata\include\pda.h
+	<string>
+	<istream>
+	<iostream>
+	<vector>
+	<stack>
+
