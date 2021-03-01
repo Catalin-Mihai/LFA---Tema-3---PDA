@@ -1,0 +1,19 @@
+4
+q1 q2 q3 q4
+3
+a b L
+4
+a b $ L
+q1
+1
+q4
+7
+q1 q2 L L $
+q2 q2 a L a
+q2 q2 b L b
+q2 q3 L L L
+q3 q3 a a L
+q3 q3 b b L
+q3 q4 L $ L
+1
+abba

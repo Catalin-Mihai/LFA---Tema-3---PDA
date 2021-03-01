@@ -24,3 +24,18 @@
 	<vector>
 	<stack>
 
+1614592757 source:c:\users\catalin\documents\tc\pushdown-automata\main.cpp
+	<iostream>
+	<fstream>
+	"PDA.h"
+
+1614592757 c:\users\catalin\documents\tc\pushdown-automata\include\pda.h
+	<string>
+	<istream>
+	<iostream>
+	<vector>
+	<stack>
+
+1614592757 source:c:\users\catalin\documents\tc\pushdown-automata\src\pda.cpp
+	"PDA.h"
+

@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/PDA.h
+string
+-
+istream
+-
+iostream
+-
+vector
+-
+stack
+-
+
+C:/Users/Catalin/Documents/TC/Pushdown-Automata/main.cpp
+iostream
+-
+fstream
+-
+PDA.h
+C:/Users/Catalin/Documents/TC/Pushdown-Automata/PDA.h
+

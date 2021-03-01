@@ -61,18 +61,18 @@ public:
     friend istream &operator>>(istream &input, PDA &pda);
     void CitesteTranzitii();
     void Afiseaza();
+    stack<int> getStiva();
     int getLambdaSimbIndex();
-    int getStivaCaracter();
     int getZ0CaracterIndex();
     int getLambdaCaracterIndex();
     //int getTranzitieIndexByRule(int plecare, int destinatie, int simbol, int caracter_citit);
     vector<int> getValidTranzition(int plecare, int destinatie, int simbol, int caracter_citit);
-    int getStareIndexByLitera(string l);
-    int getCaracterIndexByLitera(string l);
-    caracter getCaracterByLitera(string l);
-    simbol getSimbolByLitera(string l);
-    int getSimbolIndexByLitera(string l);
-    int getStareInitialaIndex();
+    int getStareIndexByLitera(const string& l);
+    int getCaracterIndexByLitera(const string& l);
+    caracter getCaracterByLitera(const string& l);
+    simbol getSimbolByLitera(const string& l);
+    int getSimbolIndexByLitera(const string& l);
+    int getStareInitialaIndex() const;
     bool isStareFinalaIndex(int index);
 };
 
