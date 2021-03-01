@@ -24,19 +24,58 @@ int PDA::getCaracterIndexByLitera(const string& l)
     return -1;
 }
 
-PDA::simbol PDA::getSimbolByLitera(const string& l)
+PDA::simbol_intrare PDA::getSimbolIntrareByLitera(const string& l)
 {
-    for(unsigned int j = 0; j < simboluri.size(); j++)
+    for(unsigned int j = 0; j < simboluri_intrare.size(); j++)
     {
-        if(simboluri[j].litera == l)
+        if(simboluri_intrare[j].litera == l)
         {
-            return simboluri[j];
+            return simboluri_intrare[j];
         }
     }
-    simbol s;
+    simbol_intrare s;
     s.index = -1;
     s.litera = "NULL";
     return s;
+}
+
+int PDA::getSimbolIntrareIndexByLitera(const string& l)
+{
+    for(unsigned int j = 0; j < simboluri_intrare.size(); j++)
+    {
+        if(simboluri_intrare[j].litera == l)
+        {
+            return simboluri_intrare[j].index;
+        }
+    }
+    return -1;
+}
+
+PDA::simbol_iesire PDA::getSimbolIesireByLitera(const string &l) {
+
+    for(unsigned int j = 0; j < simboluri_iesire.size(); j++)
+    {
+        if(simboluri_iesire[j].litera == l)
+        {
+            return simboluri_iesire[j];
+        }
+    }
+    simbol_iesire s;
+    s.index = -1;
+    s.litera = "NULL";
+    return s;
+}
+
+int PDA::getSimbolIesireIndexByLitera(const string &l) {
+
+    for(unsigned int j = 0; j < simboluri_iesire.size(); j++)
+    {
+        if(simboluri_iesire[j].litera == l)
+        {
+            return simboluri_iesire[j].index;
+        }
+    }
+    return -1;
 }
 
 PDA::caracter PDA::getCaracterByLitera(const string& l)
@@ -54,17 +93,7 @@ PDA::caracter PDA::getCaracterByLitera(const string& l)
     return s;
 }
 
-int PDA::getSimbolIndexByLitera(const string& l)
-{
-    for(unsigned int j = 0; j < simboluri.size(); j++)
-    {
-        if(simboluri[j].litera == l)
-        {
-            return simboluri[j].index;
-        }
-    }
-    return -1;
-}
+
 
 int PDA::getStareInitialaIndex() const
 {
@@ -80,9 +109,14 @@ bool PDA::isStareFinalaIndex(int index)
     return false;
 }
 
-int PDA::getLambdaSimbIndex()
+int PDA::getLambdaSimbolIntrareIndex()
 {
-    return this->getSimbolIndexByLitera("L");
+    return this->getSimbolIntrareIndexByLitera("L");
+}
+
+int PDA::getLambdaSimbolIesireIndex()
+{
+    return this->getSimbolIesireIndexByLitera("L");
 }
 
 int PDA::getLambdaCaracterIndex()
@@ -108,17 +142,27 @@ istream &operator>>(istream &input, PDA &fa)
         fa.stari.push_back(s);
     }
 
-    //simboluri
+    //simboluri_intrare - alfabetul de intrare
     input>>nr;
-    PDA::simbol s2;
+    PDA::simbol_intrare s2;
     for(unsigned int i = 0; i < nr; i++)
     {
         input>>s2.litera;
         s2.index = i;
-        fa.simboluri.push_back(s2);
+        fa.simboluri_intrare.push_back(s2);
     }
 
-    //caractere
+    //simboluri_iesire - alfabetul de iesire
+    input>>nr;
+    PDA::simbol_iesire s4;
+    for(unsigned int i = 0; i < nr; i++)
+    {
+        input>>s4.litera;
+        s4.index = i;
+        fa.simboluri_iesire.push_back(s4);
+    }
+
+    //caractere - alfabetul stivei
     input>>nr;
     PDA::caracter c;
     for(unsigned int i = 0; i < nr; i++)
@@ -154,9 +198,11 @@ istream &operator>>(istream &input, PDA &fa)
         input>>l;
         t.destinatie = fa.getStareIndexByLitera(l);
         input>>l;
-        t.simb = fa.getSimbolByLitera(l);
+        t.simbol_intrare = fa.getSimbolIntrareByLitera(l);
         input>>l;
         t.caracter_citit = fa.getCaracterByLitera(l);
+
+        //Caracterele care vor fi scrise in stiva
         input>>l;
         for(unsigned int i = 0; i < l.length(); i++)
         {
@@ -167,6 +213,22 @@ istream &operator>>(istream &input, PDA &fa)
             cout<<endl<<aux<<" ind: "<<index<<endl;
             t.caractere_scrise.push_back(index);
         }
+
+        //Caracterele care vor fi translatate
+        input>>l;
+        for(unsigned int i = 0; i < l.length(); i++)
+        {
+            string aux;
+            aux = l.at(i);
+            //cout<<endl<<aux<<endl;
+            int index = fa.getSimbolIesireIndexByLitera(aux);
+            cout<<endl<<aux<<" ind simbol iesire: "<<index<<endl;
+            PDA::simbol_iesire iesire;
+            iesire.index = index;
+            iesire.litera = aux;
+            t.simboluri_iesire_scrise.push_back(iesire);
+        }
+
         cout<<endl;
         //t.caracter_scris = fa.getCaracterByLitera(l);
         fa.tranzitii.push_back(t);
@@ -183,12 +245,12 @@ void PDA::CitesteTranzitii()
     tabel.resize(this->stari.size());
     for(unsigned int i = 0; i < this->stari.size(); i++)
     {
-        tabel[i].resize(this->simboluri.size());
+        tabel[i].resize(this->simboluri_intrare.size());
     }
 
     for(unsigned int i = 0; i < this->tranzitii.size(); i++)
     {
-        tabel[tranzitii[i].plecare][tranzitii[i].simb.index].push_back(tranzitii[i].destinatie);
+        tabel[tranzitii[i].plecare][tranzitii[i].simbol_intrare.index].push_back(tranzitii[i].destinatie);
     }
 
     vector< vector< vector<int> > >::iterator it_stari;
@@ -205,14 +267,14 @@ void PDA::CitesteTranzitii()
     }
 }
 
-vector<int> PDA::getValidTranzition(int plecare, int destinatie, int simbol, int caracter_citit)
+vector<int> PDA::getValidTranzition(int plecare, int destinatie, int simbol_intrare, int caracter_citit)
 {
     vector<int> r;
     if(plecare >= 0 && destinatie >= 0)
     {
         for(unsigned int i = 0; i < tranzitii.size(); i++)
         {
-            if(tranzitii[i].plecare == plecare && tranzitii[i].destinatie == destinatie && tranzitii[i].simb.index == simbol)
+            if(tranzitii[i].plecare == plecare && tranzitii[i].destinatie == destinatie && tranzitii[i].simbol_intrare.index == simbol_intrare)
             {
                 if(tranzitii[i].caracter_citit.index == caracter_citit)
                 {
@@ -225,32 +287,39 @@ vector<int> PDA::getValidTranzition(int plecare, int destinatie, int simbol, int
     return r;
 }
 
-bool PDA::check(PDA &lnfa, int stare_index, string word, unsigned int position, stack<int> stiva)
+bool PDA::check(PDA &lnfa, int stare_index, string word, unsigned int position, stack<int> stiva, vector<simbol_iesire> &sir_iesire)
 {
-    int simbIndex;
+    int simbolIntrareIndex;
     vector<int>::iterator it;
+
+    //Tranzitii non-lambda
+
     if(position < word.length())
     {
         string s(1, word[position]);
-        simbIndex = lnfa.getSimbolIndexByLitera(s); //indexul simbolului de pe linie/sageata/tranzitie
-        if(simbIndex == -1) { cout<<"Simbol invalid, return false"<<endl; return false;}
-        if(simbIndex != lnfa.getLambdaCaracterIndex())
+        simbolIntrareIndex = lnfa.getSimbolIntrareIndexByLitera(s); //indexul simbolului de pe linie/sageata/tranzitie
+        if(simbolIntrareIndex == -1) { cout << "Simbol invalid, return false" << endl; return false;}
+        if(simbolIntrareIndex != lnfa.getLambdaCaracterIndex())
         {
             int caracter_index = stiva.top();
-            for(it = lnfa.tabel[stare_index][simbIndex].begin(); it != lnfa.tabel[stare_index][simbIndex].end(); it++)
+            for(it = lnfa.tabel[stare_index][simbolIntrareIndex].begin(); it != lnfa.tabel[stare_index][simbolIntrareIndex].end(); it++)
             {
                 //ia caracter de pe stivA SI FA CHECK CU EL LA TRANZITIE
                 //cout<<endl<<stiva.top()<<endl;
-                vector<int> vt = getValidTranzition(stare_index, *it, simbIndex, caracter_index);
+                vector<int> vt = getValidTranzition(stare_index, *it, simbolIntrareIndex, caracter_index);
                 for(unsigned int y = 0; y < vt.size(); y++)
                 //if(t != -1)//este tranzitie valida
                 {
                     int t = vt[y];
+
+                    //Copie a stivei in acest moment.
+                    //Nu folosim stiva originala deoarece continutul ei este modificat de alte tranzitii paralele.
                     stack<int> aux_stiva = stiva;
                     int position2 = position;
                     if(caracter_index != lnfa.getLambdaCaracterIndex())
-                    aux_stiva.pop(); //sterge caracterul din top
+                        aux_stiva.pop(); //sterge caracterul din top
                     //cout<<endl<<"SIZE: "<<lnfa.tranzitii[t].caractere_scrise.size()-1;
+                    //Push pe stiva
                     for(int c = lnfa.tranzitii[t].caractere_scrise.size()-1; c >= 0; c--)
                     {
                         //cout<<endl<<"c: "<<c;
@@ -259,7 +328,29 @@ bool PDA::check(PDA &lnfa, int stare_index, string word, unsigned int position, 
                             aux_stiva.push(lnfa.tranzitii[t].caractere_scrise[c]);
                         }
                     }
-                    if(check(lnfa, *it, word, position2 + 1, aux_stiva))
+
+                    //Copie a sirului de iesire
+                    vector<simbol_iesire> &aux_simboluri_scrise = sir_iesire;
+
+                    cout<<"Outputul este: ";
+                    for(auto &c: aux_simboluri_scrise)
+                    {
+                        cout<<c.litera;
+                    }
+                    cout<<endl;
+
+                    //Facem append simbolurilor de iesire
+                    for(int c = lnfa.tranzitii[t].simboluri_iesire_scrise.size()-1; c >= 0; c--)
+                    {
+                        //cout<<endl<<"c: "<<c;
+                        if(lnfa.tranzitii[t].simboluri_iesire_scrise[c].index != lnfa.getLambdaSimbolIesireIndex())
+                        {
+                            aux_simboluri_scrise.push_back(lnfa.tranzitii[t].simboluri_iesire_scrise[c]);
+                        }
+                    }
+
+
+                    if(check(lnfa, *it, word, position2 + 1, aux_stiva, aux_simboluri_scrise))
                     {
                         return true;
                     }
@@ -270,7 +361,11 @@ bool PDA::check(PDA &lnfa, int stare_index, string word, unsigned int position, 
     }
     else if(lnfa.isStareFinalaIndex(stare_index)) return true;
 
-    int lambda_simbIndex = lnfa.getLambdaSimbIndex();
+
+    // Tranzitii lambda
+
+
+    int lambda_simbIndex = lnfa.getLambdaSimbolIntrareIndex();
     if(lambda_simbIndex == -1) { return false;}
     //cout<<lambda_simbIndex<<endl;
     int caracter_index = stiva.top();
@@ -288,34 +383,63 @@ bool PDA::check(PDA &lnfa, int stare_index, string word, unsigned int position, 
             int t = vt[y];
 
             if(caracter_index != lnfa.getLambdaCaracterIndex())
-            aux_stiva.pop(); //sterge caracterul din top
+                aux_stiva.pop(); //sterge caracterul din top
 
             for(int c = lnfa.tranzitii[t].caractere_scrise.size()-1; c >= 0; c--)
+            {
+                //cout<<endl<<"c: "<<c;
+                if(lnfa.tranzitii[t].caractere_scrise[c] != lnfa.getLambdaCaracterIndex())
                 {
-                    //cout<<endl<<"c: "<<c;
-                    if(lnfa.tranzitii[t].caractere_scrise[c] != lnfa.getLambdaCaracterIndex())
-                    {
-                        aux_stiva.push(lnfa.tranzitii[t].caractere_scrise[c]);
-                    }
+                    aux_stiva.push(lnfa.tranzitii[t].caractere_scrise[c]);
                 }
-            if(check(lnfa, *it, word, position2, aux_stiva))
+            }
+
+            //Copie a sirului de iesire
+            vector<simbol_iesire> &aux_simboluri_scrise = sir_iesire;
+            //Facem append simbolurilor de iesire
+            for(int c = lnfa.tranzitii[t].simboluri_iesire_scrise.size()-1; c >= 0; c--)
+            {
+                //cout<<endl<<"c: "<<c;
+                if(lnfa.tranzitii[t].simboluri_iesire_scrise[c].index != lnfa.getLambdaSimbolIesireIndex())
+                {
+                    aux_simboluri_scrise.push_back(lnfa.tranzitii[t].simboluri_iesire_scrise[c]);
+                }
+            }
+
+            if(check(lnfa, *it, word, position2, aux_stiva, aux_simboluri_scrise))
             {
                 //cout<<endl<<"A trimis check din lambda"<<endl;
                 return true;
             }
-            //break;
         }
     }
-    //return false;
     return false;
 }
 
-bool PDA::CheckWord(string word)
+vector<PDA::simbol_iesire> PDA::CheckWord(string word)
 {
     stack<int>s;
     stiva = s;
+
+    //Stiva are intial caracterul Z0
     stiva.push(getZ0CaracterIndex());
-    return check(*this, this->getStareInitialaIndex(), word, 0, stiva);
+
+    vector<simbol_iesire> sir_iesire;
+    bool b = check(*this, this->getStareInitialaIndex(), word, 0, stiva, sir_iesire);
+    if(b)
+    {
+        cout<<"Outputul 2 este: ";
+        for(auto &c: sir_iesire)
+        {
+            cout<<c.litera;
+        }
+        cout<<endl;
+        cout<<"Cuvantul este bun!";
+        return sir_iesire;
+    }
+
+    else
+        return vector<simbol_iesire>();
 }
 
 void PDA::Afiseaza()
@@ -327,11 +451,11 @@ void PDA::Afiseaza()
         cout<<"(i:"<<this->stari[i].index<<",l:"<<this->stari[i].litera<<") ";
     }
     cout<<endl;
-    cout<<"Nr simboluri: "<<this->simboluri.size()<<endl;
+    cout << "Nr simboluri_intrare: " << this->simboluri_intrare.size() << endl;
     cout<<"Simboluri: ";
-    for(unsigned int i = 0; i < this->simboluri.size(); i++)
+    for(unsigned int i = 0; i < this->simboluri_intrare.size(); i++)
     {
-        cout<<"(i:"<<this->simboluri[i].index<<",l:"<<this->simboluri[i].litera<<") ";
+        cout << "(i:" << this->simboluri_intrare[i].index << ",l:" << this->simboluri_intrare[i].litera << ") ";
     }
     cout<<endl;
     cout<<"Nr caractere: "<<this->caractere.size()<<endl;
@@ -353,7 +477,7 @@ void PDA::Afiseaza()
     cout<<"Nr tranzitii: "<<this->tranzitii.size()<<endl;
     for(unsigned int i = 0; i < this->tranzitii.size(); i++)
     {
-        cout<<"(plecare_index: "<<this->tranzitii[i].plecare<<", destintatie_index: "<<this->tranzitii[i].destinatie<<" ,litera_simbol: "<<this->tranzitii[i].simb.litera<<" ,simbol_index: "<<this->tranzitii[i].simb.index;
+        cout << "(plecare_index: " << this->tranzitii[i].plecare << ", destintatie_index: " << this->tranzitii[i].destinatie << " ,litera_simbol: " << this->tranzitii[i].simbol_intrare.litera << " ,simbol_index: " << this->tranzitii[i].simbol_intrare.index;
         cout<<", litera_caracter_scos: "<<tranzitii[i].caracter_citit.litera<<", litera_caractere_scrise: ";
         for(unsigned c = 0; c < (this->tranzitii[i].caractere_scrise).size(); c++)
         {
@@ -365,12 +489,12 @@ void PDA::Afiseaza()
     this->AfiseazaMatrice();
 }
 
-/*int PDA::getTranzitieIndexByRule(int plecare, int destinatie, int simbol, int caracter_citit)
+/*int PDA::getTranzitieIndexByRule(int plecare, int destinatie, int simbol_intrare, int caracter_citit)
 {
 
     for(unsigned int i = 0; i < tranzitii.size(); i++)
     {
-        if(tranzitii[i].plecare == plecare && tranzitii[i].destinatie == destinatie && tranzitii[i].simbol == simbol)
+        if(tranzitii[i].plecare == plecare && tranzitii[i].destinatie == destinatie && tranzitii[i].simbol_intrare == simbol_intrare)
         {
             for(unsigned int c = 0; c < tranzitii[i].caractere_scrise.size(); c++)
             {
@@ -402,3 +526,5 @@ void PDA::AfiseazaMatrice()
 stack<int> PDA::getStiva() {
     return this->stiva;
 }
+
+

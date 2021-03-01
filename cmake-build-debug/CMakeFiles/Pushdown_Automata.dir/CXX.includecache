@@ -18,11 +18,7 @@ vector
 stack
 -
 
-C:/Users/Catalin/Documents/TC/Pushdown-Automata/main.cpp
-iostream
--
-fstream
--
+C:/Users/Catalin/Documents/TC/Pushdown-Automata/src/PDA.cpp
 PDA.h
-C:/Users/Catalin/Documents/TC/Pushdown-Automata/PDA.h
+C:/Users/Catalin/Documents/TC/Pushdown-Automata/src/PDA.h
 

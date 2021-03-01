@@ -21,11 +21,19 @@ int main()
     for(int i = 0; i < nr_cuv; i++)
     {
         f>>cuvant;
-        bool t = pda.CheckWord(cuvant);
-        if(!t) cout << "Nu este bun cuvantul: " << cuvant << endl;
-        else cout<<"Este bun cuvantul: "<<cuvant<<endl;
-        cout<<pda.getStiva().size()<<endl;
+        vector<PDA::simbol_iesire> iesire = pda.CheckWord(cuvant);
+        if(iesire.empty())
+            cout<<"Inputul nu este corect!";
+        else
+        {
+            cout<<"Outputul este: ";
+            for(auto &c: iesire)
+            {
+                cout<<c.litera;
+            }
+            cout<<endl;
+        }
     }
-    cout<<"LAMBDA: "<<pda.getLambdaSimbIndex();
+//    cout<<"LAMBDA: "<< pda.getLambdaSimbolIntrareIndex();
     return 0;
 }
