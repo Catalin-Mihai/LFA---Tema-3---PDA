@@ -1,0 +1,19 @@
+1. Nr stari
+2. Starile
+3. Numarul caracterelor alfabetului de intrare
+4. Alfabetul de intrare
+5. Numarul caracterelor alfabetului de iesire
+6. Alfabetul de iesire
+7. Numarul caracterelor alfabetului stivei
+8. Alfabetul stivei
+9. Starea initiala
+10. Numarul starilor finale
+11. Starile finale
+12. Numarul tranzitiilor
+13. Tranzitiile
+    plecare | destinatie | caracter intrare citit | caracter stiva citit | caractere stiva adaugate | caractere de iesire adaugate
+
+
+Conventii:
+L -> Lambda pentru alfabetul de intrare/iesire/stiva
+$ -> caracterul Z0 pentru stiva

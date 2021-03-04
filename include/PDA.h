@@ -55,7 +55,7 @@ private:
     vector<stare> stari_finale;
     vector<tranzitie> tranzitii;
     stack<int> stiva;
-    vector<int> simboluri_iesire_scrise;
+    vector<string> outputs;
     string caracter_nul;
     string simbol_nul;
     //int **matrice;
@@ -66,7 +66,7 @@ private:
 public:
     PDA();
     virtual ~PDA();
-    vector<simbol_iesire> CheckWord(string word);
+    bool CheckWord(string word);
     friend istream &operator>>(istream &input, PDA &pda);
     void CitesteTranzitii();
     void Afiseaza();
@@ -90,6 +90,12 @@ public:
     bool isStareFinalaIndex(int index);
 
     int getLambdaSimbolIesireIndex();
+
+    static string convertSimboluriIesireToString(vector<simbol_iesire> simboluriIesire);
+
+    vector<string> getOutputs();
+
+    void clearOutputs();
 };
 
 #endif // PDA_H

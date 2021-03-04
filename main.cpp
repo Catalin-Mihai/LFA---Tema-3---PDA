@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    ifstream f("test4.txt");
+    ifstream f("input1.txt");
     if(f.is_open())
         cout<<"Fisierul a fost gasit!\n";
     else cout<<"Fisierul nu a fost gasit!\n";
@@ -18,22 +18,26 @@ int main()
     f>>nr_cuv;
     pda.Afiseaza();
     string cuvant;
-    for(int i = 0; i < nr_cuv; i++)
+    cout<<"Introduceti sirul: "<<endl;
+    while(cin>>cuvant)
     {
-        f>>cuvant;
-        vector<PDA::simbol_iesire> iesire = pda.CheckWord(cuvant);
-        if(iesire.empty())
-            cout<<"Inputul nu este corect!";
+        pda.clearOutputs();
+        pda.CheckWord(cuvant);
+        auto outputs = pda.getOutputs();
+        if(outputs.empty())
+        {
+            cout << "Nu exista output pentru inputul introdus!\n";
+        }
         else
         {
-            cout<<"Outputul este: ";
-            for(auto &c: iesire)
+            cout<<"Output-uri:"<<endl;
+            for(const auto& output: pda.getOutputs())
             {
-                cout<<c.litera;
+                cout<<output<<endl;
             }
-            cout<<endl;
         }
+
+        cout<<"Introduceti sirul: "<<endl;
     }
-//    cout<<"LAMBDA: "<< pda.getLambdaSimbolIntrareIndex();
     return 0;
 }
