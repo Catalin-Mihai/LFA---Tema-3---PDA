@@ -55,6 +55,11 @@ private:
     vector<stare> stari;
     vector<stare> stari_finale;
     vector<tranzitie> tranzitii;
+    caracter caracter_initial_stiva;
+public:
+    const caracter &getCaracterInitialStiva() const;
+
+private:
     stack<int> stiva;
     set<string> outputs;
     string caracter_nul;

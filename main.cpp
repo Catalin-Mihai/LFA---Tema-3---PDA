@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    ifstream f("input2.txt");
+    ifstream f("input3.txt");
     if(f.is_open())
         cout<<"Fisierul a fost gasit!\n";
     else cout<<"Fisierul nu a fost gasit!\n";

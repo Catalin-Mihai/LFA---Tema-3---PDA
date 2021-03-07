@@ -173,6 +173,13 @@ istream &operator>>(istream &input, PDA &fa)
     }
     //OBS: Ultimul caracter citit = Z0;
 
+    //simbol initial stiva
+    PDA::caracter c2;
+    string c_initial;
+    input>>c_initial;
+    c2 = fa.getCaracterByLitera(c_initial);
+    fa.caracter_initial_stiva = c2;
+
     //stare initiala
     input>>fa.stare_initiala.litera;
     fa.stare_initiala.index = fa.getStareIndexByLitera(fa.stare_initiala.litera);
@@ -432,8 +439,8 @@ bool PDA::CheckWord(string word)
     stack<int>s;
     stiva = s;
 
-    //Stiva are intial caracterul Z0
-    stiva.push(getZ0CaracterIndex());
+    //Punem pe stiva caracterul initial
+    stiva.push(this->getCaracterInitialStiva().index);
 
     vector<simbol_iesire> sir_iesire;
     return check(*this, this->getStareInitialaIndex(), word, 0, stiva, sir_iesire);
@@ -525,4 +532,8 @@ set<string> PDA::getOutputs()
 void PDA::clearOutputs()
 {
     outputs.clear();
+}
+
+const PDA::caracter &PDA::getCaracterInitialStiva() const {
+    return caracter_initial_stiva;
 }

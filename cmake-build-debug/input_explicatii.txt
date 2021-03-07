@@ -6,11 +6,12 @@
 6. Alfabetul de iesire
 7. Numarul caracterelor alfabetului stivei
 8. Alfabetul stivei
-9. Starea initiala
-10. Numarul starilor finale
-11. Starile finale
-12. Numarul tranzitiilor
-13. Tranzitiile
+9. Simbolul initial al stivei
+10. Starea initiala
+11. Numarul starilor finale
+12. Starile finale
+13. Numarul tranzitiilor
+14. Tranzitiile
     plecare | destinatie | caracter intrare citit | caractere de iesire adaugate | caracter stiva citit | caractere stiva adaugate
 
 
