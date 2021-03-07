@@ -1,0 +1,21 @@
+5
+q0 q1 q2 q3 q4
+3
+0 1 L
+4
+a b c L
+1
+L
+q0
+1
+q3
+9
+q0 q0 1 b $ $
+q0 q0 1 bb $ $
+q0 q1 L aa $ $
+q0 q1 0 a $ $
+q0 q2 0 c $ $
+q1 q4 0 b $ $
+q4 q3 L L $ $
+q2 q4 0 c $ $
+q2 q3 0 bb $ $

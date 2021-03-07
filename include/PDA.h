@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <set>
 
 using namespace std;
 
@@ -55,7 +56,7 @@ private:
     vector<stare> stari_finale;
     vector<tranzitie> tranzitii;
     stack<int> stiva;
-    vector<string> outputs;
+    set<string> outputs;
     string caracter_nul;
     string simbol_nul;
     //int **matrice;
@@ -93,7 +94,7 @@ public:
 
     static string convertSimboluriIesireToString(vector<simbol_iesire> simboluriIesire);
 
-    vector<string> getOutputs();
+    set<string> getOutputs();
 
     void clearOutputs();
 };
