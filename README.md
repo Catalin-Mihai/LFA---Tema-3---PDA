@@ -26,7 +26,7 @@ Liniile unui fisier de input au urmatoarea forma:
 11. Starile finale
 12. Numarul tranzitiilor
 13. Tranzitiile
-    plecare | destinatie | caracter intrare citit | caracter stiva citit | caractere stiva adaugate | caractere de iesire adaugate
+    plecare | destinatie | caracter intrare citit |  caractere de iesire adaugate | caracter stiva citit | caractere stiva adaugate
 
 
 Conventii:
